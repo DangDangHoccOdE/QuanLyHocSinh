@@ -9,6 +9,7 @@ public class ReportCardDetailDto {
     private String testName;
     private String semesterYear;
 
+
     public void setScore(List<Float> score) {
         this.score = score;
     }

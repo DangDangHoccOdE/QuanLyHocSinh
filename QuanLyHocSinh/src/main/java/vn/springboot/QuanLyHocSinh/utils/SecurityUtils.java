@@ -14,18 +14,6 @@ public class SecurityUtils {
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_PRINCIPAL"));
     }
 
-    public boolean hasHomeroomTeacher(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("ROLE_HOMEROOMTEACHER"));
-    }
-
-    public boolean hasRoleTeacher(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getAuthorities().stream()
-                .anyMatch (auth->auth.getAuthority().equals("ROLE_TEACHER"));
-    }
-
     public boolean hasRoleStudent(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getAuthorities().stream()

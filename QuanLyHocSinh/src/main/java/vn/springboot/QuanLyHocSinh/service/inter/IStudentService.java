@@ -8,8 +8,6 @@ import vn.springboot.QuanLyHocSinh.entity.Student;
 import java.util.List;
 
 public interface IStudentService {
-     List<Student> showAllStudent();
-
      void saveStudent(Student student);
 
      Student findStudentById(String id);
