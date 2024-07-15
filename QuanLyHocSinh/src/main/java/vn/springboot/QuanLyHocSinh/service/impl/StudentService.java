@@ -36,6 +36,11 @@ public class StudentService implements IStudentService {
     }
 
     @Override
+    public List<Student> showAllStudent(){
+        return studentDao.findAll();
+    }
+
+    @Override
     @Transactional
     public void saveStudent(Student student){
          studentDao.save(student);

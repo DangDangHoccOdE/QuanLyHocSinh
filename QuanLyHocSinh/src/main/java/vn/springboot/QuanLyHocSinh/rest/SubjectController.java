@@ -2,13 +2,13 @@ package vn.springboot.QuanLyHocSinh.rest;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import vn.springboot.QuanLyHocSinh.annotation.CheckTeacherRole;
-import vn.springboot.QuanLyHocSinh.annotation.SecuredCheck;
 import vn.springboot.QuanLyHocSinh.dto.SubjectDto;
 import vn.springboot.QuanLyHocSinh.entity.Classroom;
 import vn.springboot.QuanLyHocSinh.entity.Subject;
@@ -34,7 +34,7 @@ public class SubjectController {
         this.iClassroomService = iClassroomService;
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @GetMapping("/showAllSubjectByPrincipal")
     public String showAllSubjectByPrincipal(Model model) {
         List<Subject> subjects = iSubjectService.showAllSubject();
@@ -59,7 +59,7 @@ public class SubjectController {
         return "/subject/allSubject";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @GetMapping("/create")
     public String createSubject(Model model)  {
         SubjectDto subjectDto = new SubjectDto();
@@ -71,7 +71,7 @@ public class SubjectController {
         return "/subject/createSubject";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @PostMapping("/create")
     public String saveSubject(Model model, @Valid @ModelAttribute SubjectDto subjectDto, BindingResult result)  {
         List<Teacher> teachers = iTeacherService.findTeacherByTeachRole();
@@ -90,7 +90,7 @@ public class SubjectController {
         return "redirect:/api/subject/showAllSubjectByPrincipal";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @GetMapping("/edit")
     public String editSubject(Model model, @RequestParam("subId") int subId) {
         Subject subject = iSubjectService.findSubjectById(subId);
@@ -107,7 +107,7 @@ public class SubjectController {
         return "/subject/editSubject";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @PostMapping("/edit")
     public String saveEditSubject(Model model, @Valid @ModelAttribute SubjectDto subjectDto, BindingResult result, @RequestParam("subId") int subId) {
         Subject subject = iSubjectService.findSubjectById(subId);
@@ -129,7 +129,7 @@ public class SubjectController {
         return "redirect:/api/subject/showAllSubjectByPrincipal";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @GetMapping("/delete")
     public String deleteTeacher(@RequestParam("subId") int subId) {
         Subject subject = iSubjectService.findSubjectById(subId);

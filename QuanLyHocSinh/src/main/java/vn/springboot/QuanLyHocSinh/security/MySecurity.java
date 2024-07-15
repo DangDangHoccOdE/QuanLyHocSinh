@@ -3,6 +3,7 @@ package vn.springboot.QuanLyHocSinh.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -14,6 +15,10 @@ import vn.springboot.QuanLyHocSinh.utils.CustomLogoutSuccessHandler;
 
 @Component
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true)
 public class MySecurity {
     private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
     private final CustomLoggingSuccessHandler customLoggingSuccessHandler;
@@ -39,7 +44,8 @@ public class MySecurity {
                         logout.logoutUrl("/logout")
                                 .logoutSuccessHandler(customLogoutSuccessHandler)
                                 .permitAll()
-        ).httpBasic(Customizer.withDefaults())
+        )
+         .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();

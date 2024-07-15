@@ -3,6 +3,7 @@ package vn.springboot.QuanLyHocSinh.rest;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +12,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.springboot.QuanLyHocSinh.annotation.CheckTeacherRole;
-import vn.springboot.QuanLyHocSinh.annotation.SecuredCheck;
 import vn.springboot.QuanLyHocSinh.dto.AccountDto;
 import vn.springboot.QuanLyHocSinh.dto.ParentDto;
 import vn.springboot.QuanLyHocSinh.dto.StudentDto;
@@ -86,7 +86,7 @@ public class StudentController {
         return "/student/allStudent";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @GetMapping("/create")
     public String createStudent(Model model, @RequestParam("classId") int classId) {
         Classroom classroom = iClassroomService.findClassroomById(classId);
@@ -101,7 +101,7 @@ public class StudentController {
         return "/student/createStudent";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @PostMapping("/create")
     public String saveStudent(Model model, @RequestParam("classId") int classId, @Valid @ModelAttribute StudentDto studentDto, BindingResult bindingResult, @Valid @ModelAttribute ParentDto parentDto, BindingResult result, RedirectAttributes redirectAttributes) {
         Classroom classroom = iClassroomService.findClassroomById(classId);
@@ -130,7 +130,7 @@ public class StudentController {
         return "redirect:/api/student/showAllStudent";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @GetMapping("/edit")
     public String changeInfoStudent(Model model, @RequestParam("studentId") String studentId)  {
         Student student = iStudentService.findStudentById(studentId);
@@ -142,7 +142,7 @@ public class StudentController {
         return "/student/editStudent";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @PostMapping("/edit")
     public String saveChangeStudent(Model model, @RequestParam("studentId") String studentId, @Valid @ModelAttribute StudentDto studentDto, BindingResult bindingResult, @Valid @ModelAttribute ParentDto parentDto, BindingResult result, RedirectAttributes redirectAttributes) {
         Student student = iStudentService.findStudentById(studentId);
@@ -214,7 +214,7 @@ public class StudentController {
         return "redirect:/";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @GetMapping("/delete")
     public String deleteStudent(@RequestParam("studentId") String studentId, RedirectAttributes redirectAttributes) {
         Student student = iStudentService.findStudentById(studentId);

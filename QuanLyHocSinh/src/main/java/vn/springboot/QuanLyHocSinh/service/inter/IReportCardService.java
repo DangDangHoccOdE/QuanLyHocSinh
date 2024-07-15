@@ -11,7 +11,10 @@ public interface IReportCardService {
 
      void save(ReportCard reportCard);
 
+     List<ReportCard> findReportCardByStudentId(String id);
+
      ReportCard findReportCardBySemesterYearAndStudentIdAndSubjectId(String semesterYear,String StudentId, int subjectId);
+     List<String> findSemesterYearOfStudent(List<ReportCard> reportCards);
 
      List<ReportCard> findReportCardByRole(Teacher teacher, Student student,String semesterYear);
 }

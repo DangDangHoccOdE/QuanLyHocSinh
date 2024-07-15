@@ -2,6 +2,7 @@ package vn.springboot.QuanLyHocSinh.rest;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import vn.springboot.QuanLyHocSinh.annotation.CheckTeacherRole;
-import vn.springboot.QuanLyHocSinh.annotation.SecuredCheck;
 import vn.springboot.QuanLyHocSinh.dto.AccountDto;
 import vn.springboot.QuanLyHocSinh.dto.TeacherDto;
 import vn.springboot.QuanLyHocSinh.entity.Account;
@@ -45,7 +45,7 @@ public class TeacherController {
         this.iRolesService = iRolesService;
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @GetMapping("/showAllTeacher")
     public String showAllTeacher(Model model) {
             List<Teacher> teachers = iTeacherService.showAllTeacher();
@@ -55,7 +55,7 @@ public class TeacherController {
         return "/teacher/allTeacher";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @GetMapping("/getTeacherByName")
     public String getTeacherByName(Model model,@RequestParam("teacherName")String teacherName){
         List<Teacher> teachers = iTeacherService.findTeacherByTeacherName(teacherName);
@@ -65,7 +65,7 @@ public class TeacherController {
         return "/teacher/allTeacher";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @GetMapping("/create")
     public String createTeacher(Model model)  {
             TeacherDto teacherDto = new TeacherDto();
@@ -75,7 +75,7 @@ public class TeacherController {
         return "/teacher/createTeacher";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @PostMapping("/create")
     public String getTeacher(@Valid @ModelAttribute TeacherDto teacherDto, BindingResult result){
         List<String> listRoles = teacherDto.getRolesName();
@@ -199,7 +199,7 @@ public class TeacherController {
         return "redirect:/";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @GetMapping("/delete")
     public String deleteTeacher(@RequestParam("teacherId") String id) {
         Teacher teacher = iTeacherService.findTeacherById(id);

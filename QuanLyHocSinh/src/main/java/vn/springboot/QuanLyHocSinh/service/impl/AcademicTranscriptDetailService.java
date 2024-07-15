@@ -1,6 +1,7 @@
 package vn.springboot.QuanLyHocSinh.service.impl;
 
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.springboot.QuanLyHocSinh.dao.AcademicTranscriptDetailDao;
 import vn.springboot.QuanLyHocSinh.dto.AcademicTranscriptDetailDto;
@@ -20,6 +21,7 @@ public class AcademicTranscriptDetailService implements IAcademicTranscriptDetai
     private final AcademicPerformance academicPerformance;
     private final IAcademicTranscriptService iAcademicTranscriptService;
 
+    @Autowired
     public AcademicTranscriptDetailService(AcademicTranscriptDetailDao academicTranscriptDetailDao, ConvertString convertString, AcademicPerformance academicPerformance, IAcademicTranscriptService iAcademicTranscriptService){
         this.academicTranscriptDetailDao = academicTranscriptDetailDao;
         this.convertString = convertString;

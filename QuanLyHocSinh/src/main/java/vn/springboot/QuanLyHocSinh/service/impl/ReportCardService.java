@@ -28,6 +28,10 @@ public class ReportCardService implements IReportCardService {
         return reportCardDao.findReportCardBySemesterYearAndStudent_StudentId(semesterYear,studentId);
     }
 
+    @Override
+    public List<ReportCard> findReportCardByStudentId(String id) {
+        return reportCardDao.findReportCardByStudent_StudentId(id);
+    }
 
     @Override
     public ReportCard findReportCardBySemesterYearAndStudentIdAndSubjectId(String semesterYear, String studentId, int subjectId) {
@@ -38,6 +42,17 @@ public class ReportCardService implements IReportCardService {
     @Transactional
     public void save(ReportCard reportCard) {
          reportCardDao.save(reportCard);
+    }
+
+    @Override
+    public List<String> findSemesterYearOfStudent(List<ReportCard> reportCards) {
+        List<String> semesterYears = new ArrayList<>();
+        for (ReportCard reportCard : reportCards) {
+            if (!semesterYears.contains(reportCard.getSemesterYear())) {
+                semesterYears.add(reportCard.getSemesterYear());
+            }
+        }
+        return semesterYears;
     }
 
     @Override

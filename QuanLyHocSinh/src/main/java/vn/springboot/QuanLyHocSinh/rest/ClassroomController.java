@@ -2,13 +2,13 @@ package vn.springboot.QuanLyHocSinh.rest;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import vn.springboot.QuanLyHocSinh.annotation.CheckTeacherRole;
-import vn.springboot.QuanLyHocSinh.annotation.SecuredCheck;
 import vn.springboot.QuanLyHocSinh.dto.ClassroomDto;
 import vn.springboot.QuanLyHocSinh.entity.Classroom;
 import vn.springboot.QuanLyHocSinh.entity.RegisterNotebook;
@@ -63,7 +63,7 @@ public class ClassroomController {
         return "/classroom/allClassroom";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @GetMapping("/create")
     public String createClassroom(Model model)  {
         Log.info("Bắt đầu thêm lớp, người sử dụng: "+iTeacherService.getEmailTeacher());
@@ -79,7 +79,7 @@ public class ClassroomController {
         return "/classroom/createClassroom";
     }
 
-    @SecuredCheck
+      @PreAuthorize("hasRole('PRINCIPAL')")
     @PostMapping("/create")
     public String getClassroom(Model model, @Valid @ModelAttribute ClassroomDto classroomDto, BindingResult result)  {
         List<Teacher> teachers = iClassroomService.getAllHomeRoomTeacher();
@@ -108,7 +108,7 @@ public class ClassroomController {
         return "redirect:/api/classroom/showAllClassroom";
     }
 
-    @SecuredCheck
+      @PreAuthorize("hasRole('PRINCIPAL')")
     @GetMapping("/edit")
     public String editClassroom(Model model, @RequestParam("classId") int classId){
         Classroom classroom = iClassroomService.findClassroomById(classId);
@@ -127,7 +127,7 @@ public class ClassroomController {
         return "/classroom/editClassroom";
     }
 
-    @SecuredCheck
+      @PreAuthorize("hasRole('PRINCIPAL')")
     @PostMapping("/edit")
     public String saveEditClassroom(@Valid @ModelAttribute ClassroomDto classroomDto, BindingResult result, @RequestParam("classId") int classId, Model model) {
         List<Teacher> teachers = iClassroomService.getAllHomeRoomTeacher();
@@ -158,7 +158,7 @@ public class ClassroomController {
         return "redirect:/api/classroom/showAllClassroom";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @GetMapping("/delete")
     public String deleteClassroom(@RequestParam("classId") int classId)  {
         Classroom classroom = iClassroomService.findClassroomById(classId);

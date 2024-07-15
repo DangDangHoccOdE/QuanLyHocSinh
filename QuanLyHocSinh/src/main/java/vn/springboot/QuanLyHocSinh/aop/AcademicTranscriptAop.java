@@ -2,6 +2,7 @@ package vn.springboot.QuanLyHocSinh.aop;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,6 @@ import vn.springboot.QuanLyHocSinh.service.inter.ITeacherService;
 import vn.springboot.QuanLyHocSinh.utils.Log;
 import vn.springboot.QuanLyHocSinh.utils.SecurityUtils;
 
-import java.nio.file.AccessDeniedException;
 
 @Aspect
 @Component
@@ -29,7 +29,7 @@ public class AcademicTranscriptAop {
     }
 
     @Before("execution(* vn.springboot.QuanLyHocSinh.rest.AcademicTranscriptController.showAcademicTranscript(..))&& args(..,studentId)")
-    public void checkAccess(String studentId) throws AccessDeniedException{
+    public void checkAccess(String studentId) throws AccessDeniedException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Teacher teacher=iTeacherService.findTeacherByAccountEmail(authentication.getName());
 

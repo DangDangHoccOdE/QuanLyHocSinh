@@ -13,7 +13,7 @@ import vn.springboot.QuanLyHocSinh.utils.CheckAccessClassroom;
 import vn.springboot.QuanLyHocSinh.utils.Log;
 import vn.springboot.QuanLyHocSinh.utils.SecurityUtils;
 
-import java.nio.file.AccessDeniedException;
+import org.springframework.security.access.AccessDeniedException;
 
 @Aspect
 @Component

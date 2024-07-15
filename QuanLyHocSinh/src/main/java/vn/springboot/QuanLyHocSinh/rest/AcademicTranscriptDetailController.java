@@ -2,6 +2,7 @@ package vn.springboot.QuanLyHocSinh.rest;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,7 +10,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.springboot.QuanLyHocSinh.annotation.CheckTeacherRole;
-import vn.springboot.QuanLyHocSinh.annotation.SecuredCheck;
 import vn.springboot.QuanLyHocSinh.dto.AcademicTranscriptDetailDto;
 import vn.springboot.QuanLyHocSinh.entity.AcademicTranscriptDetail;
 import vn.springboot.QuanLyHocSinh.entity.Classroom;
@@ -127,7 +127,7 @@ public class AcademicTranscriptDetailController {
         return "redirect:/api/academicTranscript/showAcademicTranscript";
     }
 
-    @SecuredCheck
+    @PreAuthorize("hasRole('PRINCIPAL')")
     @GetMapping("/delete")
     public String delete(@RequestParam("academicTranscriptDetailId") int academicTranscriptDetailId, RedirectAttributes redirectAttributes) throws Exception {
         AcademicTranscriptDetail academicTranscriptDetail = iAcademicTranscriptDetailService.findAcademicTranscriptDetailById(academicTranscriptDetailId);
